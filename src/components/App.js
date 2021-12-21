@@ -13,57 +13,65 @@ class App extends Component {
       city: '',
       country: '',
       temp: '',
-      tempFeels: '',
+      feelsLike: '',
       pressure: '',
-      wind: ''
+      wind: '',
+      err: false
    }
 
-   handleChange = e => {
+   handleCitySubmit = e => {
+      e.preventDefault();
+
+      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&appid=${APIkey}&units=metric`
+
+      fetch(API)
+         .then(response => {
+            if (response.ok) {
+               return response
+            }
+            throw Error('Page not found')
+         })
+         .then(response => response.json())
+         .then(data => {
+            const date = new Date().toLocaleString();
+
+            this.setState({
+               date: date,
+               city: this.state.value,
+               country: data.sys.country,
+               temp: data.main.temp,
+               feelsLike: data.main.feels_like,
+               pressure: data.main.pressure,
+               wind: data.wind.speed,
+               err: false
+            })
+         })
+         .catch(err => {
+            this.setState({
+               err: true,
+               city: this.state.value
+            })
+         })
+   }
+
+   handleInputChange = e => {
       this.setState({
          value: e.target.value
       })
    }
 
-   handleSubmit = e => {
-      e.preventDefault();
-
-      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&appid=${APIkey}&units=metric`;
-
-      const date = new Date().toLocaleString();
-
-      fetch(API)
-         .then(response => {
-            if (response.ok) {
-               return response;
-            }
-         })
-         .then(response => response.json())
-         .then(data => {
-            this.setState(prevState => ({
-               date: date,
-               city: prevState.value,
-               country: data.sys.country,
-               temp: data.main.temp,
-               tempFeels: data.main.feels_like,
-               pressure: data.main.pressure,
-               wind: data.wind.speed
-            }))
-         })
-   }
-
    render() {
       return (
-         <>
+         <div className="App">
             <Form
+               submit={this.handleCitySubmit}
+               change={this.handleInputChange}
                value={this.state.value}
-               change={this.handleChange}
-               submit={this.handleSubmit}
             />
-
             <Result
                weather={this.state}
             />
-         </>
+         </div>
       )
    }
 }

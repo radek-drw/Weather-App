@@ -1,18 +1,29 @@
 import React from 'react';
+import './Result.css';
 
 const Result = props => {
-   const { date, city, country, temp, tempFeels, pressure, wind } = props.weather;
+   const { date, city, country, temp, feelsLike, pressure, wind, err } = props.weather;
+
+   let content = null;
+
+   if (!err && city) {
+      content = (
+         <div>
+            <h2>{city}, {country}</h2>
+            <p>{date}</p>
+            <p>Temperature: {temp} &deg;C</p>
+            <p>Feels like: {feelsLike} &deg;C</p>
+            <p>Pressure: {pressure} kPa</p>
+            <p>Wind: {wind} m/s</p>
+         </div>
+      )
+   }
 
    return (
-      <div>
-         <h4>{date}</h4>
-         <h3>{city}, {country}</h3>
-         <p>Temperature: {temp}</p>
-         <p>Feels Like: {tempFeels}</p>
-         <p>Pressure: {pressure} kPh</p>
-         <p>Wind speed: {wind} m/s</p>
-      </div>
-   );
+      <>
+         {err ? <p>Unfortunatly we couldn't find <strong>{city}</strong></p> : content}
+      </>
+   )
 }
 
 export default Result;
