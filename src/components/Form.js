@@ -1,15 +1,11 @@
 import React from 'react';
 
 const Form = props => {
-   const { submit, change, value } = props;
+   const { change, value } = props;
 
    return (
-      <form onSubmit={submit}>
-         <input
-            type="text"
-            onChange={change}
-            value={value}
-         />
+      <form>
+         <input type="text" onChange={change} value={value} />
          <button>Search</button>
       </form>
    )

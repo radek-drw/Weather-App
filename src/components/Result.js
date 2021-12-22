@@ -2,7 +2,7 @@ import React from 'react';
 import './Result.css';
 
 const Result = props => {
-   const { date, city, country, temp, feelsLike, pressure, wind, err } = props.weather;
+   const { date, city, country, temp, tempFeels, pressure, wind, err } = props.weather;
 
    let content = null;
 
@@ -12,7 +12,7 @@ const Result = props => {
             <h2>{city}, {country}</h2>
             <p>{date}</p>
             <p>Temperature: {temp} &deg;C</p>
-            <p>Feels like: {feelsLike} &deg;C</p>
+            <p>Feels like: {tempFeels} &deg;C</p>
             <p>Pressure: {pressure} kPa</p>
             <p>Wind: {wind} m/s</p>
          </div>
@@ -21,9 +21,14 @@ const Result = props => {
 
    return (
       <>
-         {err ? <p>Unfortunatly we couldn't find <strong>{city}</strong></p> : content}
+         {
+            err ?
+               <p>Sorry. The city <u>{city}</u> doesn't exist</p>
+               : content
+         }
       </>
    )
 }
 
 export default Result;
+

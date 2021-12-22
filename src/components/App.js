@@ -7,73 +7,71 @@ const APIkey = '0268633fae299db526aed6ff3c00d40d';
 
 class App extends Component {
 
-   state = {
-      value: '',
-      date: '',
-      city: '',
-      country: '',
-      temp: '',
-      feelsLike: '',
-      pressure: '',
-      wind: '',
-      err: false
-   }
+  state = {
+    value: '',
+    date: '',
+    city: '',
+    country: '',
+    temp: '',
+    tempFeels: '',
+    pressure: '',
+    wind: '',
+    err: false
+  }
 
-   handleCitySubmit = e => {
-      e.preventDefault();
+  handleInputChange = e => {
+    this.setState({
+      value: e.target.value
+    })
+  }
 
-      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&appid=${APIkey}&units=metric`
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.value !== this.state.value) {
+
+      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&appid=${APIkey}&units=metric`;
 
       fetch(API)
-         .then(response => {
-            if (response.ok) {
-               return response
-            }
-            throw Error('Page not found')
-         })
-         .then(response => response.json())
-         .then(data => {
-            const date = new Date().toLocaleString();
+        .then(response => {
+          if (response.ok) {
+            return response
+          }
+          throw Error('Failed')
+        })
+        .then(response => response.json())
+        .then(data => {
+          const date = new Date().toLocaleString();
 
-            this.setState({
-               date: date,
-               city: this.state.value,
-               country: data.sys.country,
-               temp: data.main.temp,
-               feelsLike: data.main.feels_like,
-               pressure: data.main.pressure,
-               wind: data.wind.speed,
-               err: false
-            })
-         })
-         .catch(err => {
-            this.setState({
-               err: true,
-               city: this.state.value
-            })
-         })
-   }
+          this.setState({
+            date: date,
+            city: this.state.value,
+            country: data.sys.country,
+            temp: data.main.temp,
+            tempFeels: data.main.feels_like,
+            pressure: data.main.pressure,
+            wind: data.wind.speed,
+            err: false
+          })
+        })
+        .catch(err => {
+          this.setState(prevState => ({
+            city: prevState.value,
+            err: true
+          }))
+        })
+    }
+  }
 
-   handleInputChange = e => {
-      this.setState({
-         value: e.target.value
-      })
-   }
-
-   render() {
-      return (
-         <div className="App">
-            <Form
-               submit={this.handleCitySubmit}
-               change={this.handleInputChange}
-               value={this.state.value}
-            />
-            <Result
-               weather={this.state}
-            />
-         </div>
-      )
-   }
+  render() {
+    return (
+      <>
+        <Form
+          value={this.state.value}
+          change={this.handleInputChange}
+        />
+        <Result weather={this.state} />
+      </>
+    )
+  }
 }
 
 export default App;
