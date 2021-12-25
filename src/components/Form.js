@@ -5,8 +5,7 @@ const Form = props => {
 
    return (
       <form>
-         <input type="text" onChange={change} value={value} />
-         <button>Search</button>
+         City: <input type="text" onChange={change} value={value} />
       </form>
    )
 }
