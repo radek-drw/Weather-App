@@ -11,7 +11,7 @@ const Result = props => {
          <div>
             <h2>{city}, {country}</h2>
             <p>{date}</p>
-            <p>Temperature: {temp} &deg;C</p>
+            <p>Temperature: {temp.toFixed(1)} &deg;C</p>
             <p>Feels like: {tempFeels} &deg;C</p>
             <p>Pressure: {pressure} kPa</p>
             <p>Wind: {wind} m/s</p>

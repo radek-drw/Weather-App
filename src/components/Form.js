@@ -5,7 +5,11 @@ const Form = props => {
 
    return (
       <form>
-         City: <input type="text" onChange={change} value={value} />
+         City: <input
+            type="text"
+            placeholder='Type here...'
+            onChange={change}
+            value={value} />
       </form>
    )
 }
