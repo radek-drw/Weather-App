@@ -1,5 +1,5 @@
 import React from 'react';
-import './Result.css';
+import '../styles/Result.css';
 
 const Result = props => {
    const { date, city, country, temp, tempFeels, pressure, wind, err } = props.weather;

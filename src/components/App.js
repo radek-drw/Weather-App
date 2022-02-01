@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from './Form';
 import Result from './Result';
-import './App.css';
+import '../styles/App.css';
 
 const APIkey = '0268633fae299db526aed6ff3c00d40d';
 
