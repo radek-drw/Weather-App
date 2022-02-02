@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Form = props => {
-   const { change, value } = props;
+const Form = ({ change, value }) => {
 
    return (
       <form>
